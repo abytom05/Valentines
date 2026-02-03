@@ -52,20 +52,42 @@
       to{ transform: translateY(-120vh) rotate(360deg); opacity:0; }
     }
     .small{ font-size:12px; opacity:.7; margin-top:10px; }
+    .hidden{ display:none; }
+
+    .photo{
+      width: min(280px, 75vw);
+      height: auto;
+      border-radius: 18px;
+      margin: 14px auto 10px;
+      display:block;
+      border: 2px solid #ffffffaa;
+      box-shadow: 0 14px 30px rgba(0,0,0,.15);
+    
+      /* float animation */
+      animation: floaty 4.5s ease-in-out infinite;
+    }
+    
+    @keyframes floaty{
+      0%,100% { transform: translateY(0px); }
+      50%     { transform: translateY(-10px); }
+    }
+
   </style>
 </head>
 <body>
   <div class="card">
     <div class="hearts" id="hearts"></div>
     <h1>Hello Juliet💖</h1>
+    <img id="valPhoto" src="ValTime.jpeg" alt="Juliet" class="photo hidden">
     <p>Will you be my Valentine?</p>
+
 
     <div class="btns">
       <button id="yes">Yes 💘</button>
       <button id="no">No 🙈</button>
     </div>
 
-    <div class="msg" id="msg">YAY!! 🥰 I knew it! 💞</div>
+    <div class="msg" id="msg">YAY!! 🥰 I was Doubtful!💞</div>
     <div class="small">Made with love ✨</div>
   </div>
 
@@ -74,6 +96,7 @@
     const no = document.getElementById('no');
     const msg = document.getElementById('msg');
     const hearts = document.getElementById('hearts');
+    const valPhoto = document.getElementById('valPhoto');
 
     function popHearts(count = 20){
       const emojis = ["💖","💘","💝","💕","💗","❤️","😍","😘"];
@@ -92,10 +115,12 @@
 
     yes.addEventListener('click', () => {
       msg.style.display = 'block';
+      valPhoto.classList.remove('hidden'); // show photo
       popHearts(35);
       no.disabled = true;
-      yes.textContent = "Yes 💘 (locked in)";
+      yes.textContent = "Yes 💘 (You're Stuck)";
     });
+
 
     // playful "can't click no" button
     no.addEventListener('mouseenter', () => {
@@ -109,6 +134,7 @@
 
     // little ambient hearts
     setInterval(() => popHearts(3), 1200);
+
   </script>
 </body>
 </html>
