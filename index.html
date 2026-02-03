@@ -71,6 +71,10 @@
       0%,100% { transform: translateY(0px); }
       50%     { transform: translateY(-10px); }
     }
+    #no{
+      transition: left 0.35s ease, top 0.35s ease, transform 0.35s ease;
+      will-change: left, top, transform;
+    }
 
   </style>
 </head>
@@ -93,8 +97,10 @@
       width="0" height="0"
       src=""
       frameborder="0"
-      allow="autoplay">
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
     </iframe>
+
 
   </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -149,22 +155,54 @@
       msg.style.display = 'block';
       valPhoto.classList.remove('hidden'); // show photo
       popConfetti();
-      pophearts(25);
-      yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?autoplay=1&loop=1&playlist=APJxwxZuA0E";
+      popHearts(25);
+      yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?autoplay=1&mute=1&loop=1&playlist=APJxwxZuA0E";
+      setTimeout(() => {
+        // reload unmuted after autoplay starts (hacky but effective)
+        yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?autoplay=1&loop=1&playlist=APJxwxZuA0E";
+      }, 600);
       no.disabled = true;
       yes.textContent = "Yes 💘 (You're Stuck)";
     });
 
 
-    // playful "can't click no" button
+        // playful "can't click no" button
     no.addEventListener('mouseenter', () => {
-      const card = document.querySelector('.card').getBoundingClientRect();
-      const maxX = card.width - no.offsetWidth - 20;
-      const maxY = 120; // keep it near the button row
-      no.style.position = 'absolute';
-      no.style.left = (20 + Math.random()*maxX) + 'px';
-      no.style.top = (160 + Math.random()*maxY) + 'px';
+      const card = document.querySelector('.card');
+      const cardRect = card.getBoundingClientRect();
+    
+      // Make sure the button is positioned relative to the card
+      card.style.position = "relative";
+      no.style.position = "absolute";
+    
+      // Current position (if first time, start near its normal place)
+      const currentLeft = parseFloat(no.style.left) || (cardRect.width/2 + 40);
+      const currentTop  = parseFloat(no.style.top)  || 190;
+    
+      // Pick a target position within the card
+      const maxX = cardRect.width - no.offsetWidth - 20;
+      const minX = 20;
+    
+      const minY = 150;      // keep it below title/photo
+      const maxY = 280;      // keep it inside card
+    
+      let targetLeft = minX + Math.random() * (maxX - minX);
+      let targetTop  = minY + Math.random() * (maxY - minY);
+    
+      // Add a "fly away" effect: move further from the cursor direction a bit
+      const dx = targetLeft - currentLeft;
+      const dy = targetTop - currentTop;
+    
+      no.style.transform = `translate(${Math.sign(dx)*6}px, ${Math.sign(dy)*6}px) rotate(${(Math.random()*20-10)}deg)`;
+    
+      // Set new position (CSS transition makes it smooth)
+      no.style.left = `${targetLeft}px`;
+      no.style.top  = `${targetTop}px`;
+    
+      // Reset transform after it lands (keeps it from drifting forever)
+      setTimeout(() => { no.style.transform = "translate(0,0) rotate(0deg)"; }, 350);
     });
+
 
     // little ambient hearts
     setInterval(() => popHearts(3), 1200);
