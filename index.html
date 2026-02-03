@@ -89,18 +89,37 @@
 
     <div class="msg" id="msg">YAY!! 🥰 I was Doubtful!💞</div>
     <div class="small">Made with love ✨</div>
+    <iframe id="ytplayer"
+      width="0" height="0"
+      src=""
+      frameborder="0"
+      allow="autoplay">
+    </iframe>
+
   </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
+    const yt = document.getElementById('ytplayer');
     const yes = document.getElementById('yes');
     const no = document.getElementById('no');
     const msg = document.getElementById('msg');
     const hearts = document.getElementById('hearts');
     const valPhoto = document.getElementById('valPhoto');
-   function popHearts(count = 20){
+    function popHearts(count = 20){
       const emojis = ["💖","💘","💝","💕","💗","❤️","😍","😘"];
-     
+      for(let i=0;i<count;i++){
+        const s = document.createElement('div');
+        s.className = 'heart';
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.left = Math.random()*100 + '%';
+        s.style.animationDuration = (2.2 + Math.random()*2.5) + 's';
+        s.style.fontSize = (14 + Math.random()*24) + 'px';
+        s.style.animationDelay = (Math.random()*0.3) + 's';
+        hearts.appendChild(s);
+        s.addEventListener('animationend', () => s.remove());
+      }
+    }
     function popConfetti(){
       // Big burst
       confetti({
@@ -131,6 +150,7 @@
       valPhoto.classList.remove('hidden'); // show photo
       popConfetti();
       pophearts(25);
+      yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?autoplay=1&loop=1&playlist=APJxwxZuA0E";
       no.disabled = true;
       yes.textContent = "Yes 💘 (You're Stuck)";
     });
