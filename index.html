@@ -90,6 +90,7 @@
     <div class="msg" id="msg">YAY!! 🥰 I was Doubtful!💞</div>
     <div class="small">Made with love ✨</div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     const yes = document.getElementById('yes');
@@ -98,25 +99,35 @@
     const hearts = document.getElementById('hearts');
     const valPhoto = document.getElementById('valPhoto');
 
-    function popHearts(count = 20){
-      const emojis = ["💖","💘","💝","💕","💗","❤️","😍","😘"];
-      for(let i=0;i<count;i++){
-        const s = document.createElement('div');
-        s.className = 'heart';
-        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-        s.style.left = Math.random()*100 + '%';
-        s.style.animationDuration = (2.2 + Math.random()*2.5) + 's';
-        s.style.fontSize = (14 + Math.random()*24) + 'px';
-        s.style.animationDelay = (Math.random()*0.3) + 's';
-        hearts.appendChild(s);
-        s.addEventListener('animationend', () => s.remove());
-      }
+    function popConfetti(){
+      // Big burst
+      confetti({
+        particleCount: 140,
+        spread: 80,
+        origin: { y: 0.65 }
+      });
+    
+      // Side sprays
+      confetti({
+        particleCount: 80,
+        spread: 120,
+        angle: 60,
+        origin: { x: 0, y: 0.7 }
+      });
+    
+      confetti({
+        particleCount: 80,
+        spread: 120,
+        angle: 120,
+        origin: { x: 1, y: 0.7 }
+      });
     }
+
 
     yes.addEventListener('click', () => {
       msg.style.display = 'block';
       valPhoto.classList.remove('hidden'); // show photo
-      popHearts(35);
+      popConfetti();
       no.disabled = true;
       yes.textContent = "Yes 💘 (You're Stuck)";
     });
