@@ -98,7 +98,9 @@
     const msg = document.getElementById('msg');
     const hearts = document.getElementById('hearts');
     const valPhoto = document.getElementById('valPhoto');
-
+   function popHearts(count = 20){
+      const emojis = ["💖","💘","💝","💕","💗","❤️","😍","😘"];
+     
     function popConfetti(){
       // Big burst
       confetti({
@@ -128,6 +130,7 @@
       msg.style.display = 'block';
       valPhoto.classList.remove('hidden'); // show photo
       popConfetti();
+      pophearts(25);
       no.disabled = true;
       yes.textContent = "Yes 💘 (You're Stuck)";
     });
