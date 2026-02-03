@@ -153,17 +153,16 @@
 
     yes.addEventListener('click', () => {
       msg.style.display = 'block';
-      valPhoto.classList.remove('hidden'); // show photo
+      valPhoto.classList.remove('hidden');
       popConfetti();
       popHearts(25);
-      yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?autoplay=1&mute=1&loop=1&playlist=APJxwxZuA0E";
-      setTimeout(() => {
-        // reload unmuted after autoplay starts (hacky but effective)
-        yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?autoplay=1&loop=1&playlist=APJxwxZuA0E";
-      }, 600);
+    
+      yt.src = "https://www.youtube.com/embed/APJxwxZuA0E?start=16&autoplay=1&loop=1&playlist=APJxwxZuA0E";
+    
       no.disabled = true;
       yes.textContent = "Yes 💘 (You're Stuck)";
     });
+
 
 
         // playful "can't click no" button
